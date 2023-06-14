@@ -1,0 +1,8 @@
+name: Minecord
+version: '${project.version}'
+main: me.bnsh.minecord.Main
+api-version: 1.20
+
+commands:
+  health:
+    description: Sets health of player
