@@ -16,9 +16,19 @@ class DatabaseController {
         }
     }
 
-    fun getQuery(sql: String): ResultSet {
+    fun query(sql: String): ResultSet {
         val connection = getConnection()
         return connection.createStatement()
             .executeQuery(sql)
+    }
+
+    fun insertOrRemoveOrUpdate(sql: String) {
+        val connection = getConnection()
+        val statement = connection.createStatement()
+
+        statement.executeUpdate(sql)
+
+        statement.close()
+        connection.close()
     }
 }

@@ -1,6 +1,7 @@
 import commands.CommandHandler
 
 import database.models.Users
+import events.GuildLeaveEvent
 import events.JoinEvent
 import events.MessageReceivedEvent
 import events.ReadyEvent
@@ -21,17 +22,21 @@ fun main() {
             CommandHandler(),
             JoinEvent(),
             MessageReceivedEvent(),
-            ReadyEvent()
+            ReadyEvent(),
+            GuildLeaveEvent()
         )
         .build()
 
     bot.updateCommands().addCommands(
         Commands.slash("whitelist", "Whitelist given player")
-            .addOption(OptionType.STRING, "player", "Player name", true)
-    ).queue()
+            .addOption(OptionType.STRING, "player", "Player name", true),
+        Commands.slash("ip", "Sets the Minecraft IP address")
+            .addOption(OptionType.STRING, "ip", "IP address of the server", true),
+        Commands.slash("id", "Sets the communication or whitelist id")
+            .addOption(OptionType.CHANNEL, "channel", "Communication or whitelist channel", true)
+        ).queue()
     botInstance = bot
     Client().receiveMessage()
-    println(Users().getChannelFromGuild(1118104988070195251))
 }
 
 
