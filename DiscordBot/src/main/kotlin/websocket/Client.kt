@@ -17,15 +17,14 @@ class Client {
         GlobalScope.launch(Dispatchers.Default) {
             client.webSocket(method = HttpMethod.Get, host = "localhost", port = 8080, path = "/chat") {
                 // Auf Nachrichten vom Server warten
-                for (frame in incoming) {
-                    if (frame is Frame.Text) {
-                        val receivedMessage = frame.readText()
 
-                        println("Nachricht empfangen: $receivedMessage")
-                        val splitMessage = receivedMessage.split("\\s".toRegex())
-                        if (splitMessage[0] == "[DISCORD]") break
+                while(true) {
+                    val othersMessage = incoming.receive() as? Frame.Text ?: continue
+                    println(othersMessage.readText())
+                    val splitMessage = othersMessage.readText().split("\\s".toRegex())
+                    if (splitMessage[0] == "[MINECRAFT]") {
                         botInstance.getTextChannelById("1118497382934511656")
-                            ?.sendMessage("${splitMessage[0]} ${splitMessage[1]}: ${splitMessage.subList(2, splitMessage.size).joinToString(" ")}")?.queue()
+                            ?.sendMessage("${splitMessage[0]} <${splitMessage[1]}> ${splitMessage.subList(2, splitMessage.size).joinToString(" ")}")?.queue()
                     }
                 }
             }
@@ -45,13 +44,3 @@ enum class Options {
     MESSAGE,
     WHITELIST
 }
-
-
-
-
-
-
-
-
-
-
