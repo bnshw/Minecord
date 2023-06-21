@@ -5,7 +5,7 @@ import java.util.UUID
 
 class Whitelist {
     fun getUuidFromName(name: String): UUID {
-        val query = DatabaseController().getQuery("SELECT uuid FROM whitelist WHERE name = $name")
+        val query = DatabaseController().query("SELECT uuid FROM whitelist WHERE name = $name")
 
         lateinit var uuid: UUID
 
@@ -18,7 +18,7 @@ class Whitelist {
     }
 
     fun getGuildFromUUID(uuid: UUID): Long {
-        val query = DatabaseController().getQuery("SELECT guild_ID FROM whitelist WHERE uuid = $uuid")
+        val query = DatabaseController().query("SELECT guild_ID FROM whitelist WHERE uuid = $uuid")
 
         var guildID: Long = 0
 
