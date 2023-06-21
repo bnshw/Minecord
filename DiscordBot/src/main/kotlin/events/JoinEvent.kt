@@ -1,20 +1,16 @@
 package events
 
 import database.models.Users
-import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.channel.concrete.Category
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import org.w3c.dom.Text
 
 class JoinEvent : ListenerAdapter() {
     override fun onGuildJoin(event: GuildJoinEvent) {
         val guild: Guild = event.guild
         val category = guild.getCategoriesByName("Minecraft-Bot", true).firstOrNull() ?: guild.createCategory("Minecraft-Bot").complete()
 
-        val channels = category.channels
         val whitelistChannel = guild.getTextChannelsByName("whitelist", true).firstOrNull()
         val communicationChannel = guild.getTextChannelsByName("communication", true).firstOrNull()
 

@@ -1,6 +1,5 @@
 import commands.CommandHandler
 
-import database.models.Users
 import events.GuildLeaveEvent
 import events.JoinEvent
 import events.MessageReceivedEvent
