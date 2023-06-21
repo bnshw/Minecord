@@ -1,4 +1,6 @@
 import commands.CommandHandler
+
+import database.models.Users
 import events.JoinEvent
 import events.MessageReceivedEvent
 import events.ReadyEvent
@@ -13,8 +15,7 @@ import websocket.Client
 lateinit var botInstance: JDA
 
 fun main() {
-    val dotenv = dotenv()
-    val bot: JDA = JDABuilder.createDefault(dotenv.get("BOT_TOKEN"))
+    val bot: JDA = JDABuilder.createDefault(dotenv().get("BOT_TOKEN"))
         .enableIntents(GatewayIntent.MESSAGE_CONTENT)
         .addEventListeners(
             CommandHandler(),
@@ -30,6 +31,7 @@ fun main() {
     ).queue()
     botInstance = bot
     Client().receiveMessage()
+    println(Users().getChannelFromGuild(1118104988070195251))
 }
 
 
