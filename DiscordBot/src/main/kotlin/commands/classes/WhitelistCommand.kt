@@ -4,6 +4,8 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
+import websocket.Client
+import websocket.Options
 import java.net.URL
 import java.util.*
 
@@ -15,9 +17,11 @@ class WhitelistCommand {
             event.reply(response)
             return
         }
-
-        val uuid: UUID = UUID.fromString(response)
+        val formatedUUID: String? = formatUUID(response)
+        val uuid: UUID = UUID.fromString(formatedUUID)
         // UUID to Plugin via websocket
+        Client().sendMessage(Options.WHITELIST, event.member!!.effectiveName, uuid.toString())
+        event.reply("Player $name (UUID: $uuid) added to the whitelist.").queue()
     }
 
     private fun getUUID(name: String?): String? {
@@ -37,5 +41,19 @@ class WhitelistCommand {
             println("Fehler beim Abrufen der API: $errorMessage")
             return null
         }
+    }
+
+    private fun formatUUID(uuid: String?): String? {
+        if (uuid == null || uuid.length != 32) {
+            return null // Invalid UUID length
+        }
+
+        val builder = StringBuilder(uuid)
+        builder.insert(8, '-')
+        builder.insert(13, '-')
+        builder.insert(18, '-')
+        builder.insert(23, '-')
+
+        return builder.toString()
     }
 }

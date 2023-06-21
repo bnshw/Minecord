@@ -1,7 +1,10 @@
 package me.bnsh.minecord
 
 import me.bnsh.minecord.commands.HealthCommand
+import me.bnsh.minecord.listeners.ChatListener
 import me.bnsh.minecord.listeners.JoinListener
+import me.bnsh.minecord.listeners.LoginListener
+import me.bnsh.minecord.websocket.Client
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -12,6 +15,7 @@ class Main : JavaPlugin() {
         logger.info("Plugin enabled")
         listenerRegistration()
         commandRegistration()
+        Client().receiveMessage()
     }
 
     override fun onDisable() {
@@ -22,6 +26,8 @@ class Main : JavaPlugin() {
     private fun listenerRegistration() {
         val manager = Bukkit.getPluginManager()
         manager.registerEvents(JoinListener(), this)
+        manager.registerEvents(ChatListener(), this)
+        manager.registerEvents(LoginListener(), this)
     }
 
     private fun commandRegistration() {
