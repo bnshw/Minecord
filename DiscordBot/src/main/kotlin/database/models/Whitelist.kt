@@ -8,6 +8,10 @@ class Whitelist {
         DatabaseController().sqlStatement("INSERT INTO whitelist (uuid, name, guild_ID) VALUES ('$uuid', '$name', $guildID)")
     }
 
+    fun removePlayers(guildID: Long) {
+        DatabaseController().sqlStatement("DELETE FROM whitelist WHERE guild_ID = $guildID")
+    }
+
     fun checkPlayerExists(name: String): Boolean {
         val query = DatabaseController().query("SELECT name FROM whitelist WHERE name = '$name'")
 
@@ -21,8 +25,8 @@ class Whitelist {
         return !dbName.isNullOrEmpty()
     }
 
-    fun checkUUID(uuid: UUID): Boolean {
-        val query = DatabaseController().query("SELECT uuid FROM whitelist WHERE uuid = '$uuid'")
+    fun checkUUID(uuid: UUID, guildID: Long): Boolean {
+        val query = DatabaseController().query("SELECT uuid FROM whitelist WHERE uuid = '$uuid' AND guild_ID = $guildID")
 
         var uuidString = ""
 
