@@ -1,6 +1,5 @@
 package commands.classes
 
-import database.models.Users
 import database.models.Whitelist
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -22,7 +21,7 @@ class WhitelistCommand {
         val formattedUUID: String? = formatUUID(response)
         val uuid: UUID = UUID.fromString(formattedUUID)
 
-        if (Whitelist().checkUUID(uuid)) {
+        if (event.guild?.let { Whitelist().checkUUID(uuid, it.idLong) } == true) {
             event.reply("> Player $name is already whitelisted").queue()
             return
         }
