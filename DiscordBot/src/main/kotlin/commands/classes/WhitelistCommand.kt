@@ -27,7 +27,7 @@ class WhitelistCommand {
             return
         }
 
-        event.member?.let { event.guild?.let { it1 -> Whitelist().setPlayer(uuid.toString(), it.effectiveName, it1.id) } }
+        event.member?.let { event.guild?.let { it1 -> Whitelist().setPlayer(uuid.toString(), name!!, it1.id) } }
         event.reply("> Player $name (UUID: $uuid) added to the whitelist.").queue()
     }
 

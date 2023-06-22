@@ -9,7 +9,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 class PreLoginListener : Listener {
     @EventHandler
     fun onPreLogin(event: AsyncPlayerPreLoginEvent) {
-        if (Whitelist().checkUUID(event.uniqueId)) {
+        if (Whitelist().checkWhitelist(event.uniqueId, event.address.toString().replace("/", ""))) {
             event.allow()
             return
         }
