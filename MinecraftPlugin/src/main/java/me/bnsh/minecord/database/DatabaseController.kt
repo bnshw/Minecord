@@ -1,4 +1,4 @@
-package database
+package me.bnsh.minecord.database
 
 import io.github.cdimascio.dotenv.dotenv
 import java.sql.Connection

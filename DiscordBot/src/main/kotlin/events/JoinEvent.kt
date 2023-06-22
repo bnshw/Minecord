@@ -18,11 +18,11 @@ class JoinEvent : ListenerAdapter() {
         if (whitelistChannel == null || communicationChannel == null) {
             val (whitelistID, communicationID) = createBotChannels(guild, category)
             Users().setUser(guild.idLong, communicationID)
-            guild.systemChannel?.sendMessage("Hello ${guild.name}. Please set your server ip address with:\n> /set ip-address [ip-address]")?.queue()
+            guild.systemChannel?.sendMessage("Hello ${guild.name}. Please set your server ip address with:\n> /ip [ip-address]")?.queue()
             return
         }
         Users().setUser(guild.idLong)
-        guild.systemChannel?.sendMessage("Hello ${guild.name}. Please set your server ip address and your communication channel id with:\n> /set ip-address [ip-address]\n> /set communication-id [channel-id]")?.queue()
+        guild.systemChannel?.sendMessage("Hello ${guild.name}. Please set your server ip address and your communication channel id with:\n> /ip [ip-address]\n> /id [channel-id]")?.queue()
     }
 
     private fun createBotChannels(guild: Guild, category: Category): Pair<Long, Long> {
