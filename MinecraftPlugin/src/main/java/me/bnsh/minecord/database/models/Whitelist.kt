@@ -5,9 +5,9 @@ import java.util.*
 
 class Whitelist {
     fun checkUUID(uuid: UUID): Boolean {
-        val query = DatabaseController().query("SELECT uuid FROM whitelist WHERE uuid = $uuid")
+        val query = DatabaseController().query("SELECT uuid FROM whitelist WHERE uuid = '$uuid'")
 
-        lateinit var uuidString: String
+        var uuidString = ""
 
         if (query.next()) {
             uuidString = query.getString("uuid")
@@ -15,6 +15,5 @@ class Whitelist {
 
         query.close()
         return !uuidString.isNullOrEmpty()
-
     }
 }

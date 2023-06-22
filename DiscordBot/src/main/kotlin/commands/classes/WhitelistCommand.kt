@@ -1,5 +1,6 @@
 package commands.classes
 
+import database.models.Whitelist
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -20,7 +21,9 @@ class WhitelistCommand {
         val formatedUUID: String? = formatUUID(response)
         val uuid: UUID = UUID.fromString(formatedUUID)
         // UUID to Plugin via websocket
-        Client().sendMessage(Options.WHITELIST, event.member!!.effectiveName, uuid.toString())
+        event.member?.let { event.guild?.let { it1 -> Whitelist().setPlayer(uuid.toString(), it.effectiveName, it1.id) } }
+
+        //Client().sendMessage(Options.WHITELIST, event.member!!.effectiveName, uuid.toString())
         event.reply("Player $name (UUID: $uuid) added to the whitelist.").queue()
     }
 

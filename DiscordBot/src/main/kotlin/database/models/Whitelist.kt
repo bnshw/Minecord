@@ -4,6 +4,10 @@ import database.DatabaseController
 import java.util.UUID
 
 class Whitelist {
+    fun setPlayer(uuid: String, name: String, guildID: String) {
+        DatabaseController().sqlStatement("INSERT INTO whitelist (uuid, name, guild_ID) VALUES ('$uuid', '$name', $guildID)")
+    }
+
     fun getUuidFromName(name: String): UUID {
         val query = DatabaseController().query("SELECT uuid FROM whitelist WHERE name = $name")
 
