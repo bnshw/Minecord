@@ -6,13 +6,19 @@ import me.bnsh.minecord.listeners.ChatListener
 import me.bnsh.minecord.listeners.JoinListener
 import me.bnsh.minecord.listeners.PreLoginListener
 import me.bnsh.minecord.websocket.Client
+import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
 
 class Main : JavaPlugin() {
 
     companion object {
         var pluginPath: String = ""
+        fun getGuildID(): String = File("Minecord-GuildID.txt").readText()
+
+        fun checkGuilIdFileExists(): Boolean = File("Minecord-GuildID.txt").exists()
     }
 
     override fun onEnable() {

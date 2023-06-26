@@ -10,6 +10,7 @@ class CommandHandler : ListenerAdapter() {
             "whitelist" -> WhitelistCommand().onWhitelistCommand(event)
             "ip" -> IpCommand().onIpCommand(event)
             "id" -> IdCommand().onIdCommand(event)
+            "auth" -> AuthCommand().onAuth(event)
         }
     }
 }

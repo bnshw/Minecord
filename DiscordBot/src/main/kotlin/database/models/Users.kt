@@ -23,6 +23,10 @@ class Users {
         DatabaseController().sqlStatement("UPDATE users SET channel_ID = '$channelID' WHERE guild_ID = $guildID")
     }
 
+    fun setAuthFromGuild(guildID: Long, auth: Int) {
+        DatabaseController().sqlStatement("UPDATE users SET auth = $auth WHERE guild_ID = $guildID")
+    }
+
     fun getAllGuilds(): ArrayList<Long> {
         val query = DatabaseController().query("SELECT guild_ID FROM users")
 
@@ -36,21 +40,8 @@ class Users {
         return guildList
     }
 
-    fun getMessagesFromGuild(guildID: Long, option: MessageOptions): Boolean {
-        val query = DatabaseController().query("SELECT $option FROM users WHERE guild_ID = $guildID")
-
-        var messages = false
-
-        if (query.next()) {
-            messages = query.getBoolean("$option")
-        }
-
-        query.close()
-        return messages
-    }
-
-    fun getChannelFromAddress(address: String): Long {
-        val query = DatabaseController().query("SELECT channel_ID FROM users WHERE address = '$address'")
+    fun getChannelFromGuild(guildID: Long): Long {
+        val query = DatabaseController().query("SELECT channel_ID FROM users WHERE guild_ID = $guildID")
 
         var channelID: Long = 0
 
@@ -62,12 +53,16 @@ class Users {
         return channelID
     }
 
-    fun setMessages(guildID: Long, bool: Boolean, option: MessageOptions) {
-        DatabaseController().sqlStatement("UPDATE users SET $option = $bool WHERE guild_ID = $guildID")
-    }
-}
+    fun getAuthFromGuild(guildID: Long): Int {
+        val query = DatabaseController().query("SELECT auth FROM users WHERE guild_ID = $guildID")
 
-enum class MessageOptions {
-    mc_messages,
-    dc_messages
+        var auth: Int = 0
+
+        if (query.next()) {
+            auth = query.getInt("auth")
+        }
+
+        query.close()
+        return auth
+    }
 }

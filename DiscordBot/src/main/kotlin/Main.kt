@@ -34,6 +34,8 @@ fun main() {
             .addOption(OptionType.STRING, "ip", "IP address of the server", true),
         Commands.slash("id", "Sets the communication or whitelist id")
             .addOption(OptionType.CHANNEL, "channel", "Communication or whitelist channel", true),
+        Commands.slash("auth", "Sets authentication")
+            .addOption(OptionType.BOOLEAN, "option", "true/false", true),
         ).queue()
     botInstance = bot
 
