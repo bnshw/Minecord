@@ -10,6 +10,15 @@ import java.util.*
 
 class WhitelistCommand {
     fun onWhitelistCommand(event: SlashCommandInteractionEvent) {
+        when (event.getOption("option")?.asString?.lowercase(Locale.getDefault())) {
+            "add" -> addToWhitelist(event)
+            "remove" -> removeFromWhitelist(event)
+            else -> event.reply("Invalid subcommand. Please use either `/whitelist add` or `/whitelist remove`.").queue()
+        }
+    }
+
+
+    private fun addToWhitelist(event: SlashCommandInteractionEvent) {
         if (event.channel.name != "whitelist") {
             val reply = event.reply("This command can only be used in the ${event.guild?.getTextChannelsByName("whitelist", true)?.first()?.asMention} Channel")
             reply.setEphemeral(true).queue()
@@ -35,6 +44,10 @@ class WhitelistCommand {
         event.reply("> Player $name (UUID: $uuid) added to the whitelist.").queue()
     }
 
+    private fun removeFromWhitelist(event: SlashCommandInteractionEvent) {
+        TODO()
+    }
+
     private fun getUUID(name: String?): String? {
         try {
             val url = URL("https://api.mojang.com/users/profiles/minecraft/$name")
@@ -51,9 +64,7 @@ class WhitelistCommand {
 
 
     private fun formatUUID(uuid: String?): String? {
-        if (uuid == null || uuid.length != 32) {
-            return null // Invalid UUID length
-        }
+        if (uuid == null || uuid.length != 32) return null
 
         val builder = StringBuilder(uuid)
         builder.insert(8, '-')
