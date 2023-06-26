@@ -32,7 +32,7 @@ fun main() {
         Commands.slash("ip", "Sets the Minecraft IP address")
             .addOption(OptionType.STRING, "ip", "IP address of the server", true),
         Commands.slash("id", "Sets the communication or whitelist id")
-            .addOption(OptionType.CHANNEL, "channel", "Communication or whitelist channel", true)
+            .addOption(OptionType.CHANNEL, "channel", "Communication or whitelist channel", true),
         ).queue()
     botInstance = bot
     Client().receiveMessage()

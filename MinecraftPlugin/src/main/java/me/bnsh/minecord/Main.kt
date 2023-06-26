@@ -1,6 +1,7 @@
 package me.bnsh.minecord
 
 import me.bnsh.minecord.commands.HealthCommand
+import me.bnsh.minecord.commands.IdCommand
 import me.bnsh.minecord.listeners.ChatListener
 import me.bnsh.minecord.listeners.JoinListener
 import me.bnsh.minecord.listeners.PreLoginListener
@@ -10,12 +11,15 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class Main : JavaPlugin() {
 
+    lateinit var pluginPath: String
+
     override fun onEnable() {
         // Plugin startup logic
         logger.info("Plugin enabled")
         listenerRegistration()
         commandRegistration()
         Client().receiveMessage()
+        pluginPath = dataFolder.path
     }
 
     override fun onDisable() {
@@ -32,5 +36,6 @@ class Main : JavaPlugin() {
 
     private fun commandRegistration() {
         getCommand("health")?.setExecutor(HealthCommand())
+        getCommand("id")?.setExecutor(IdCommand())
     }
 }

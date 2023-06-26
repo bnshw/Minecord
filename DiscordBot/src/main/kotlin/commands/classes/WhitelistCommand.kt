@@ -10,8 +10,13 @@ import java.util.*
 
 class WhitelistCommand {
     fun onWhitelistCommand(event: SlashCommandInteractionEvent) {
-        val name: String? = event.getOption("player")?.asString
+        if (event.channel.name != "whitelist") {
+            val reply = event.reply("This command can only be used in the ${event.guild?.getTextChannelsByName("whitelist", true)?.first()?.asMention} Channel")
+            reply.setEphemeral(true).queue()
+            return
+        }
 
+        val name: String? = event.getOption("player")?.asString
         val response: String? = getUUID(name)
         if (response == null) {
             event.reply("> Couldn't find any profile with name $name").queue()

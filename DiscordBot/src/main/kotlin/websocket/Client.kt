@@ -1,6 +1,7 @@
 package websocket
 
 import botInstance
+import database.models.Users
 import io.ktor.client.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.http.*
@@ -23,8 +24,8 @@ class Client {
                     println(othersMessage.readText())
                     val splitMessage = othersMessage.readText().split("\\s".toRegex())
                     if (splitMessage[0] == "[MINECRAFT]") {
-                        botInstance.getTextChannelById("1121053463237890131")
-                            ?.sendMessage("${splitMessage[0]} <${splitMessage[1]}> ${splitMessage.subList(2, splitMessage.size).joinToString(" ")}")?.queue()
+                        botInstance.getTextChannelById(Users().getChannelFromAddress(splitMessage[1]))
+                            ?.sendMessage("${splitMessage[0]} <${splitMessage[2]}> ${splitMessage.subList(3, splitMessage.size).joinToString(" ")}")?.queue()
                     }
                 }
             }
