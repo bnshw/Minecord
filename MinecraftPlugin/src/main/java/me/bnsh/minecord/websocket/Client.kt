@@ -5,12 +5,14 @@ import io.ktor.client.plugins.websocket.*
 import io.ktor.http.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.*
+import me.bnsh.minecord.Main
 
 class Client {
     private val client = HttpClient {
         install(WebSockets)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun receiveMessage() {
         GlobalScope.launch(Dispatchers.Default) {
             client.webSocket(method = HttpMethod.Get, host = "localhost", port = 8080, path = "/chat") {
@@ -22,7 +24,7 @@ class Client {
                     if (splitMessage[0] == "[DISCORD]") {
                         when (splitMessage[1]) {
                             "MESSAGE" -> MessageHandler().messageToServer(splitMessage)
-                            "WHITELIST" -> MessageHandler().whitelistUUID(splitMessage[3])
+                            "AUTH" -> MessageHandler().authMessage(splitMessage)
                         }
                     }
                 }
@@ -30,11 +32,20 @@ class Client {
         }
     }
 
-    fun sendMessage(author: String, content: String) {
+    @OptIn(DelicateCoroutinesApi::class)
+    fun sendMessage(option: Options, author: String, content: String) {
         GlobalScope.launch(Dispatchers.IO) {
             client.webSocket(method = HttpMethod.Get, host = "localhost", port = 8080, path = "/chat") {
-                send("[MINECRAFT] $author $content")
+                when (option) {
+                    Options.MESSAGE ->  send("[MINECRAFT] $option $author ${Main.getGuildID()} $content")
+                    Options.AUTH -> send("[MINECRAFT] $option $author $content")
+                }
             }
         }
     }
+}
+
+enum class Options {
+    MESSAGE,
+    AUTH
 }

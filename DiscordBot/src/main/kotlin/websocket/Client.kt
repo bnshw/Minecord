@@ -14,6 +14,7 @@ class Client {
         install(WebSockets)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun receiveMessage() {
         GlobalScope.launch(Dispatchers.Default) {
             client.webSocket(method = HttpMethod.Get, host = "localhost", port = 8080, path = "/chat") {
@@ -24,14 +25,17 @@ class Client {
                     println(othersMessage.readText())
                     val splitMessage = othersMessage.readText().split("\\s".toRegex())
                     if (splitMessage[0] == "[MINECRAFT]") {
-                        botInstance.getTextChannelById(Users().getChannelFromAddress(splitMessage[1]))
-                            ?.sendMessage("${splitMessage[0]} <${splitMessage[2]}> ${splitMessage.subList(3, splitMessage.size).joinToString(" ")}")?.queue()
+                       when (splitMessage[1]) {
+                           "MESSAGE" -> MessageHandler().messageToDiscord(splitMessage)
+                           "AUTH" -> MessageHandler().authMessage(splitMessage)
+                       }
                     }
                 }
             }
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun sendMessage(option: Options, author: String, content: String) {
         GlobalScope.launch(Dispatchers.IO) {
             client.webSocket(method = HttpMethod.Get, host = "localhost", port = 8080, path = "/chat") {
@@ -43,5 +47,5 @@ class Client {
 
 enum class Options {
     MESSAGE,
-    WHITELIST
+    AUTH
 }
