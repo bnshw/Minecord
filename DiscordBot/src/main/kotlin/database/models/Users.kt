@@ -23,6 +23,19 @@ class Users {
         DatabaseController().sqlStatement("UPDATE users SET channel_ID = '$channelID' WHERE guild_ID = $guildID")
     }
 
+    fun getAllGuilds(): ArrayList<Long> {
+        val query = DatabaseController().query("SELECT guild_ID FROM users")
+
+        var guildList: ArrayList<Long> = ArrayList()
+
+        while (query.next()) {
+            guildList.add(query.getLong("guild_ID"))
+        }
+
+        query.close()
+        return guildList
+    }
+
     fun getMessagesFromGuild(guildID: Long, option: MessageOptions): Boolean {
         val query = DatabaseController().query("SELECT $option FROM users WHERE guild_ID = $guildID")
 

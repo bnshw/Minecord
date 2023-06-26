@@ -11,7 +11,9 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class Main : JavaPlugin() {
 
-    lateinit var pluginPath: String
+    companion object {
+        var pluginPath: String = ""
+    }
 
     override fun onEnable() {
         // Plugin startup logic

@@ -13,7 +13,10 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter
 class JoinEvent : ListenerAdapter() {
     @OptIn(DelicateCoroutinesApi::class)
     override fun onGuildJoin(event: GuildJoinEvent) {
-        val guild: Guild = event.guild
+        botSetup(event.guild)
+    }
+
+    fun botSetup(guild: Guild) {
         val category =
             guild.getCategoriesByName("Minecraft-Bot", true).firstOrNull() ?: guild.createCategory("Minecraft-Bot")
                 .complete()

@@ -1,4 +1,5 @@
 import commands.CommandHandler
+import database.models.Users
 
 import events.GuildLeaveEvent
 import events.JoinEvent
@@ -35,6 +36,11 @@ fun main() {
             .addOption(OptionType.CHANNEL, "channel", "Communication or whitelist channel", true),
         ).queue()
     botInstance = bot
+
+    bot.guilds.forEach { guild ->
+        if (Users().getAllGuilds().contains(guild.idLong)) JoinEvent().botSetup(guild)
+    }
+
     Client().receiveMessage()
 }
 
