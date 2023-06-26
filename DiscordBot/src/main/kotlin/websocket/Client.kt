@@ -18,8 +18,6 @@ class Client {
     fun receiveMessage() {
         GlobalScope.launch(Dispatchers.Default) {
             client.webSocket(method = HttpMethod.Get, host = "localhost", port = 8080, path = "/chat") {
-                // Auf Nachrichten vom Server warten
-
                 while(true) {
                     val othersMessage = incoming.receive() as? Frame.Text ?: continue
                     println(othersMessage.readText())

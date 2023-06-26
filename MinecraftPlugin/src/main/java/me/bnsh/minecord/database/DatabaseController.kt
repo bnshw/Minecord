@@ -1,6 +1,5 @@
 package me.bnsh.minecord.database
 
-import io.github.cdimascio.dotenv.dotenv
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
@@ -9,7 +8,7 @@ import java.sql.SQLException
 class DatabaseController {
     private fun getConnection(): Connection {
         return try {
-            DriverManager.getConnection("jdbc:mysql://localhost:3306/minecord", "root", "")//dotenv().get("DB_URL"), dotenv().get("DB_USER"), dotenv().get("DB_PASSWORD"))
+            DriverManager.getConnection("jdbc:mysql://localhost:3306/minecord", "root", "")
         } catch (e: SQLException) {
             e.printStackTrace()
             throw e

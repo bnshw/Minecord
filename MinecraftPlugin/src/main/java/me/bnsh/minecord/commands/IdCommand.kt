@@ -1,6 +1,5 @@
 package me.bnsh.minecord.commands
 
-import me.bnsh.minecord.Main
 import me.bnsh.minecord.database.models.Users
 import me.bnsh.minecord.websocket.Client
 import me.bnsh.minecord.websocket.Options
@@ -11,7 +10,6 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import java.io.File
 
 class IdCommand : CommandExecutor {
 

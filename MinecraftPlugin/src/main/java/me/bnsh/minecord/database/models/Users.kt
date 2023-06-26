@@ -4,7 +4,7 @@ import me.bnsh.minecord.database.DatabaseController
 
 class Users {
     fun checkGuildIdExists(guildID: Long): Boolean {
-        val query = DatabaseController().query("SELECT guild_ID FROM whitelist WHERE guild_ID = $guildID")
+        val query = DatabaseController().query("SELECT guild_ID FROM users WHERE guild_ID = $guildID")
 
         var id: Long = 0
 

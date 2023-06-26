@@ -1,11 +1,9 @@
 package me.bnsh.minecord.websocket
 
-import me.bnsh.minecord.Main
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import java.io.File
-import java.util.UUID
 
 class MessageHandler {
     fun messageToServer(message: List<String>) {

@@ -2,7 +2,6 @@ package events
 
 import database.models.Users
 import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.entities.Guild
@@ -11,7 +10,6 @@ import net.dv8tion.jda.api.events.guild.GuildJoinEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
 class JoinEvent : ListenerAdapter() {
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onGuildJoin(event: GuildJoinEvent) {
         botSetup(event.guild)
     }

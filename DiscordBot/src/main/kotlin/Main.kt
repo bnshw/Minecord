@@ -8,15 +8,21 @@ import events.ReadyEvent
 import io.github.cdimascio.dotenv.dotenv
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.Commands
 import net.dv8tion.jda.api.requests.GatewayIntent
 import websocket.Client
 
 lateinit var botInstance: JDA
+lateinit var guildList: MutableList<Guild>
+var dotenv = dotenv {
+    directory = "../../Minecord"
+    filename = ".env"
+}
 
 fun main() {
-    val bot: JDA = JDABuilder.createDefault(dotenv().get("BOT_TOKEN"))
+    val bot: JDA = JDABuilder.createDefault(dotenv.get("BOT_TOKEN"))
         .enableIntents(GatewayIntent.MESSAGE_CONTENT)
         .addEventListeners(
             CommandHandler(),
@@ -40,6 +46,7 @@ fun main() {
     botInstance = bot
 
     bot.guilds.forEach { guild ->
+        println(guild.idLong)
         if (Users().getAllGuilds().contains(guild.idLong)) JoinEvent().botSetup(guild)
     }
 
