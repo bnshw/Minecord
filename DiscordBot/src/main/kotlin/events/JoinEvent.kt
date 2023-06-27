@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.channel.concrete.Category
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import java.awt.Color
 
 class JoinEvent : ListenerAdapter() {
     override fun onGuildJoin(event: GuildJoinEvent) {
@@ -17,9 +18,15 @@ class JoinEvent : ListenerAdapter() {
 
     @OptIn(DelicateCoroutinesApi::class)
     fun botSetup(guild: Guild) {
+        guild.createRole()
+            .setName("Minecord-Mod")
+            .setColor(Color.getColor("#7cbd6b"))
+            .queue()
+
         val category =
-            guild.getCategoriesByName("Minecord-Channels", true).firstOrNull() ?: guild.createCategory("Minecord-Channels")
-                .complete()
+            guild.getCategoriesByName("Minecord-Channels", true).firstOrNull()
+                ?: guild.createCategory("Minecord-Channels")
+                    .complete()
 
         val whitelistChannel = guild.getTextChannelsByName("whitelist", true).firstOrNull()
         val communicationChannel = guild.getTextChannelsByName("communication", true).firstOrNull()

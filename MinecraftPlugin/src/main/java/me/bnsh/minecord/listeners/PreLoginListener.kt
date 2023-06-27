@@ -11,7 +11,7 @@ class PreLoginListener : Listener {
     @EventHandler
     fun onPreLogin(event: AsyncPlayerPreLoginEvent) {
         if (Main.checkGuilIdFileExists()) {
-            if (Whitelist().checkWhitelist(event.uniqueId)) {
+            if (Whitelist().checkUUID(event.uniqueId)) {
                 event.allow()
                 return
             }

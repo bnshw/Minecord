@@ -10,3 +10,5 @@ commands:
     description: Sets the Guild-ID
   receive:
     description: Sets weather Discord can receive Minecraft messages or Minecraft can receive Discord messages
+  whitelist:
+    description: Add or remove player from whitelist

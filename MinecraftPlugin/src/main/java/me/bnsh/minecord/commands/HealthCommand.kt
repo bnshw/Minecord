@@ -1,5 +1,6 @@
 package me.bnsh.minecord.commands
 
+import me.bnsh.minecord.Utils
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
@@ -20,11 +21,11 @@ class HealthCommand : CommandExecutor {
 
     private fun setHealth(hearts: String, player: Player?) {
         if (hearts.toDoubleOrNull() == null  && hearts.toDouble() <= 20 && hearts.toDouble() >= 0) {
-            player?.sendMessage("${ChatColor.RED} /health <hearts> \n Max. 20 hearts")
+            Utils().playerMessage(player!!, "/health <hearts> \\n Max. 20 hearts", ChatColor.RED)
             return
         }
         player?.health = hearts.toDouble()
-        player?.sendMessage("${ChatColor.GOLD} ${player.name} hearts set to ${hearts}")
+        Utils().playerMessage(player!!, "${player.name} hearts set to $hearts", ChatColor.GOLD)
     }
 
     private fun setTargetHealth(hearts: String, target: String) {
