@@ -9,23 +9,20 @@ import java.net.URL
 import java.util.*
 
 class WhitelistCommand {
+
+    private var name: String? = ""
+
     fun onWhitelistCommand(event: SlashCommandInteractionEvent) {
-        when (event.getOption("option")?.asString?.lowercase(Locale.getDefault())) {
-            "add" -> addToWhitelist(event)
-            "remove" -> removeFromWhitelist(event)
-            else -> event.reply("Invalid subcommand. Please use either `/whitelist add` or `/whitelist remove`.").queue()
+        when (event.name) {
+            "whitelist-add" -> addToWhitelist(event)
+            "whitelist-remove" -> removeFromWhitelist(event)
         }
     }
 
-
     private fun addToWhitelist(event: SlashCommandInteractionEvent) {
-        if (event.channel.name != "whitelist") {
-            val reply = event.reply("This command can only be used in the ${event.guild?.getTextChannelsByName("whitelist", true)?.first()?.asMention} Channel")
-            reply.setEphemeral(true).queue()
-            return
-        }
+        if (checkChannel(event)) return
 
-        val name: String? = event.getOption("player")?.asString
+        name = event.getOption("player")?.asString
         val response: String? = getUUID(name)
         if (response == null) {
             event.reply("> Couldn't find any profile with name $name").queue()
@@ -45,7 +42,14 @@ class WhitelistCommand {
     }
 
     private fun removeFromWhitelist(event: SlashCommandInteractionEvent) {
-        TODO()
+        if (checkChannel(event)) return
+        name = event.getOption("player")?.asString
+        if (event.guild?.let { Whitelist().checkPlayerExists(name!!, it.idLong) } == true) {
+            event.guild?.let { Whitelist().removePlayer(name!!, it.idLong) }
+            event.reply("> Player $name has been removed from the whitelist").queue()
+            return
+        }
+        event.reply("> Couldn't find a player whitelisted with this name").queue()
     }
 
     private fun getUUID(name: String?): String? {
@@ -62,7 +66,6 @@ class WhitelistCommand {
         }
     }
 
-
     private fun formatUUID(uuid: String?): String? {
         if (uuid == null || uuid.length != 32) return null
 
@@ -73,5 +76,14 @@ class WhitelistCommand {
         builder.insert(23, '-')
 
         return builder.toString()
+    }
+
+    private fun checkChannel(event: SlashCommandInteractionEvent): Boolean {
+        if (event.channel.name != "whitelist") {
+            val reply = event.reply("This command can only be used in the ${event.guild?.getTextChannelsByName("whitelist", true)?.first()?.asMention} Channel")
+            reply.setEphemeral(true).queue()
+            return true
+        }
+        return false
     }
 }

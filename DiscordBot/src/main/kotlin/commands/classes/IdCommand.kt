@@ -1,8 +1,6 @@
 package commands.classes
 
 import database.models.Users
-import kotlinx.coroutines.channels.Channel
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 
 class IdCommand {
