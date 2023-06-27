@@ -25,6 +25,7 @@ class Client {
                         when (splitMessage[1]) {
                             "MESSAGE" -> MessageHandler().messageToServer(splitMessage)
                             "AUTH" -> MessageHandler().authMessage(splitMessage)
+                            "WHITELIST" -> MessageHandler().whitelistAction(splitMessage)
                         }
                     }
                 }

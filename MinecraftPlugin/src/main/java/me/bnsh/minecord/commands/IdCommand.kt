@@ -1,5 +1,7 @@
 package me.bnsh.minecord.commands
 
+import jdk.jshell.execution.Util
+import me.bnsh.minecord.Utils
 import me.bnsh.minecord.database.models.Users
 import me.bnsh.minecord.websocket.Client
 import me.bnsh.minecord.websocket.Options
@@ -22,10 +24,10 @@ class IdCommand : CommandExecutor {
 
         if (p3[0].let { Users().checkGuildIdExists(it.toLong()) }) {
             Client().sendMessage(Options.AUTH, player.name, p3[0])
-            player.sendMessage("Waiting for authentication...")
-            player.sendMessage("To authenticate your request follow the Discord Bots instructions")
+            Utils().playerMessage(player, "Waiting for authentication...")
+            Utils().playerMessage(player, "To authenticate your request follow the Discord Bots instructions")
         } else {
-            player.sendMessage("${ChatColor.RED} This Guild ID is not linked to the Minecord Bot. Please add the Bot to your Discord, if you haven't, to continue")
+            Utils().playerMessage(player, "This Guild ID is not linked to the Minecord Bot. Please add the Bot to your Discord, if you haven't, to continue", ChatColor.RED)
         }
 
         return true
@@ -33,9 +35,9 @@ class IdCommand : CommandExecutor {
 
 
     private fun getHelpMessage(player: Player) {
-        player.sendMessage("${ChatColor.RED}Format: /id <guild-id>")
+        Utils().playerMessage(player, "Format: /id <guild-id>", ChatColor.RED)
         val clickableMessage = TextComponent("${ChatColor.RED} Click here to see how to get the guild ID!")
         clickableMessage.clickEvent = ClickEvent(ClickEvent.Action.OPEN_URL, "https://en.wikipedia.org/wiki/Template:Discord_server")
-        player.sendMessage(clickableMessage)
+        Utils().playerMessage(player, clickableMessage)
     }
 }

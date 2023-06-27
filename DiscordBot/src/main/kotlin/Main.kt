@@ -27,7 +27,7 @@ fun main() {
             JoinEvent(),
             MessageReceivedEvent(),
             ReadyEvent(),
-            GuildLeaveEvent()
+            GuildLeaveEvent(),
         )
         .build()
 

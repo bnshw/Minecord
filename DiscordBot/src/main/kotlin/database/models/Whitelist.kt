@@ -1,7 +1,7 @@
 package database.models
 
 import database.DatabaseController
-import java.util.UUID
+import java.util.*
 
 class Whitelist {
     fun setPlayer(uuid: String, name: String, guildID: String) {
@@ -26,7 +26,7 @@ class Whitelist {
         }
 
         query.close()
-        return !dbName.isNullOrEmpty()
+        return dbName.isNotEmpty()
     }
 
     fun checkUUID(uuid: UUID, guildID: Long): Boolean {
@@ -39,6 +39,6 @@ class Whitelist {
         }
 
         query.close()
-        return !uuidString.isNullOrEmpty()
+        return uuidString.isNotEmpty()
     }
 }
