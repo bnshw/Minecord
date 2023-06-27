@@ -6,6 +6,8 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
+import websocket.Client
+import websocket.Options
 import java.net.URL
 import java.util.*
 
@@ -47,6 +49,7 @@ class WhitelistCommand {
         if (event.guild?.let { Whitelist().checkPlayerExists(name!!, it.idLong) } == true) {
             event.guild?.let { Whitelist().removePlayer(name!!, it.idLong) }
             event.reply("> Player $name has been removed from the whitelist").queue()
+            event.member?.let { Client().sendMessage(Options.WHITELIST, it.effectiveName, "REMOVED $name") }
             return
         }
         event.reply("> Couldn't find a player whitelisted with this name").queue()

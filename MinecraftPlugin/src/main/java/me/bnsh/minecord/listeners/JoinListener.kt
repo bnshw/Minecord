@@ -1,6 +1,7 @@
 package me.bnsh.minecord.listeners
 
 import me.bnsh.minecord.Main
+import me.bnsh.minecord.Utils
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
@@ -17,12 +18,11 @@ class JoinListener : Listener {
         event.joinMessage = "${ChatColor.AQUA} Hello ${player.name}"
 
         if (!Main.checkGuilIdFileExists()) {
-            Bukkit.broadcast(TextComponent("${ChatColor.RED}Guild-ID has not been set."))
+            Utils().broadcast("Guild-ID has not been set.", ChatColor.RED)
 
             val clickableMessage = TextComponent("${ChatColor.RED}/id <guild-id>")
             clickableMessage.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/id ")
-            player.sendMessage(clickableMessage)
-            // clickable event
+            Utils().playerMessage(player, clickableMessage)
         }
     }
 }
