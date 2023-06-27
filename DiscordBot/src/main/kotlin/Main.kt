@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.Commands
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
 import net.dv8tion.jda.api.requests.GatewayIntent
 import websocket.Client
 
@@ -33,6 +34,9 @@ fun main() {
     bot.updateCommands().addCommands(
         Commands.slash("whitelist-add", "Whitelist given player")
             .addOption(OptionType.STRING, "player", "Player name", true),
+        Commands.slash("receive", "Whitelist given player")
+            .addSubcommands(SubcommandData("discord-messages", "Sets if Minecraft should receive Discord messages"))
+            .addSubcommands(SubcommandData("minecraft-messages", "Sets if Discord should receive Minecraft messages")),
         Commands.slash("whitelist-remove", "Removes given player from whitelist")
             .addOption(OptionType.STRING, "player", "Player name", true),
         Commands.slash("ip", "Sets the Minecraft IP address")

@@ -27,6 +27,23 @@ class Users {
         DatabaseController().sqlStatement("UPDATE users SET auth = $auth WHERE guild_ID = $guildID")
     }
 
+    fun setMessages(guildID: Long, message: Option, bool: Boolean) {
+        DatabaseController().sqlStatement("UPDATE users SET $message = $bool WHERE guild_ID = $guildID")
+    }
+
+    fun getMessages(guildID: Long, message: Option): Boolean {
+        val query = DatabaseController().query("SELECT $message FROM users WHERE guild_ID = $guildID")
+
+        var messageValue = false
+
+        if (query.next()) {
+            messageValue = query.getBoolean(message.toString())
+        }
+
+        query.close()
+        return messageValue
+    }
+
     fun getAllGuilds(): ArrayList<Long> {
         val query = DatabaseController().query("SELECT guild_ID FROM users")
 
@@ -65,4 +82,9 @@ class Users {
         query.close()
         return auth
     }
+}
+
+enum class Option {
+    mc_messages,
+    dc_messages
 }

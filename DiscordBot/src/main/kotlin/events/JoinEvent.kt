@@ -16,7 +16,7 @@ class JoinEvent : ListenerAdapter() {
 
     fun botSetup(guild: Guild) {
         val category =
-            guild.getCategoriesByName("Minecraft-Bot", true).firstOrNull() ?: guild.createCategory("Minecraft-Bot")
+            guild.getCategoriesByName("Minecord-Channels", true).firstOrNull() ?: guild.createCategory("Minecord-Channels")
                 .complete()
 
         val whitelistChannel = guild.getTextChannelsByName("whitelist", true).firstOrNull()

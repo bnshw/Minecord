@@ -1,5 +1,6 @@
 package me.bnsh.minecord.database.models
 
+import me.bnsh.minecord.Main
 import me.bnsh.minecord.database.DatabaseController
 
 class Users {
@@ -15,4 +16,26 @@ class Users {
         query.close()
         return id != 0L
     }
+
+    fun setMessages(message: Option, bool: Boolean) {
+        DatabaseController().sqlStatement("UPDATE users SET $message = $bool WHERE guild_ID = ${Main.getGuildID()}")
+    }
+
+    fun getMessages(message: Option): Boolean {
+        val query = DatabaseController().query("SELECT $message FROM users WHERE guild_ID = ${Main.getGuildID()}")
+
+        var messageValue = false
+
+        if (query.next()) {
+            messageValue = query.getBoolean(message.toString())
+        }
+
+        query.close()
+        return messageValue
+    }
+}
+
+enum class Option {
+    mc_messages,
+    dc_messages
 }

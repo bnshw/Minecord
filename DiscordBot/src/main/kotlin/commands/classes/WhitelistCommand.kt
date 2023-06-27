@@ -1,5 +1,6 @@
 package commands.classes
 
+import commands.CommandHandler
 import database.models.Whitelist
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -13,6 +14,8 @@ class WhitelistCommand {
     private var name: String? = ""
 
     fun onWhitelistCommand(event: SlashCommandInteractionEvent) {
+        if (CommandHandler().checkCommandChannel(event, "whitelist")) return
+
         when (event.name) {
             "whitelist-add" -> addToWhitelist(event)
             "whitelist-remove" -> removeFromWhitelist(event)
@@ -20,8 +23,6 @@ class WhitelistCommand {
     }
 
     private fun addToWhitelist(event: SlashCommandInteractionEvent) {
-        if (checkChannel(event)) return
-
         name = event.getOption("player")?.asString
         val response: String? = getUUID(name)
         if (response == null) {
@@ -42,7 +43,6 @@ class WhitelistCommand {
     }
 
     private fun removeFromWhitelist(event: SlashCommandInteractionEvent) {
-        if (checkChannel(event)) return
         name = event.getOption("player")?.asString
         if (event.guild?.let { Whitelist().checkPlayerExists(name!!, it.idLong) } == true) {
             event.guild?.let { Whitelist().removePlayer(name!!, it.idLong) }
@@ -76,14 +76,5 @@ class WhitelistCommand {
         builder.insert(23, '-')
 
         return builder.toString()
-    }
-
-    private fun checkChannel(event: SlashCommandInteractionEvent): Boolean {
-        if (event.channel.name != "whitelist") {
-            val reply = event.reply("This command can only be used in the ${event.guild?.getTextChannelsByName("whitelist", true)?.first()?.asMention} Channel")
-            reply.setEphemeral(true).queue()
-            return true
-        }
-        return false
     }
 }

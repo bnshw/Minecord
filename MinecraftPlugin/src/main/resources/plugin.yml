@@ -7,4 +7,6 @@ commands:
   health:
     description: Sets health of player
   id:
-    description: Sets guild id
+    description: Sets the Guild-ID
+  receive:
+    description: Sets weather Discord can receive Minecraft messages or Minecraft can receive Discord messages
