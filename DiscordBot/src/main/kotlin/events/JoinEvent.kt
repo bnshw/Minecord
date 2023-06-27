@@ -2,6 +2,7 @@ package events
 
 import database.models.Users
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.entities.Guild
@@ -14,6 +15,7 @@ class JoinEvent : ListenerAdapter() {
         botSetup(event.guild)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun botSetup(guild: Guild) {
         val category =
             guild.getCategoriesByName("Minecord-Channels", true).firstOrNull() ?: guild.createCategory("Minecord-Channels")

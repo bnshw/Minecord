@@ -47,7 +47,7 @@ class Users {
     fun getAllGuilds(): ArrayList<Long> {
         val query = DatabaseController().query("SELECT guild_ID FROM users")
 
-        var guildList: ArrayList<Long> = ArrayList()
+        val guildList: ArrayList<Long> = ArrayList()
 
         while (query.next()) {
             guildList.add(query.getLong("guild_ID"))
@@ -73,7 +73,7 @@ class Users {
     fun getAuthFromGuild(guildID: Long): Int {
         val query = DatabaseController().query("SELECT auth FROM users WHERE guild_ID = $guildID")
 
-        var auth: Int = 0
+        var auth = 0
 
         if (query.next()) {
             auth = query.getInt("auth")
