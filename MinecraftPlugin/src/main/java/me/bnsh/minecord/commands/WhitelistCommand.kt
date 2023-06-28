@@ -41,10 +41,14 @@ class WhitelistCommand : CommandExecutor {
             }
         }
         if (Users().getWhitelist()) {
-            when (p3[0]) {
-                "add" -> addToWhitelist(p3[1], player)
-                "remove" -> removeFromWhitelist(p3[1], player)
+            if (p3.size == 2){
+                when (p3[0]) {
+                    "add" -> addToWhitelist(p3[1], player)
+                    "remove" -> removeFromWhitelist(p3[1], player)
+                }
+                return true
             }
+            Utils().playerMessage(player, "Format:\n/whitelist <add or remove> <player-name>", ChatColor.RED)
             return true
         }
         Utils().playerMessage(player, "Whitelist is currently disabled\nUse ${ChatColor.UNDERLINE}/whitelist enable${ChatColor.RESET}${ChatColor.RED} to enable the whitelist", ChatColor.RED)

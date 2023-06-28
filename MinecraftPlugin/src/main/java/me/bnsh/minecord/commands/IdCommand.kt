@@ -1,6 +1,7 @@
 package me.bnsh.minecord.commands
 
 import jdk.jshell.execution.Util
+import me.bnsh.minecord.Main
 import me.bnsh.minecord.Utils
 import me.bnsh.minecord.database.models.Users
 import me.bnsh.minecord.websocket.Client
@@ -22,6 +23,11 @@ class IdCommand : CommandExecutor {
             return true
         }
 
+        if (p3?.size == 0) {
+            Utils().playerMessage(player, "Guild-ID of linked Discord server: ${Main.getGuildID()}")
+            return true
+        }
+
         if (p3?.size != 1 || p3[0].toLongOrNull() == null) {
             getHelpMessage(player)
             return true
@@ -29,8 +35,7 @@ class IdCommand : CommandExecutor {
 
         if (p3[0].let { Users().checkGuildIdExists(it.toLong()) }) {
             Client().sendMessage(Options.AUTH, player.name, p3[0])
-            Utils().playerMessage(player, "Waiting for authentication...")
-            Utils().playerMessage(player, "To authenticate your request follow the Discord Bots instructions")
+            Utils().playerMessage(player, "Waiting for authentication...\nTo authenticate your request follow the Discord Bots instructions")
         } else {
             Utils().playerMessage(player, "This Guild ID is not linked to the Minecord Bot. Please add the Bot to your Discord, if you haven't, to continue", ChatColor.RED)
         }

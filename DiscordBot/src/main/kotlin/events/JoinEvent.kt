@@ -1,6 +1,5 @@
 package events
 
-import botInstance
 import database.models.Users
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -36,7 +35,7 @@ class JoinEvent : ListenerAdapter() {
             role = createRole(guild, roleName)
             roleID = role.idLong
         } else {
-            role = botInstance.getRolesByName(roleName, false).first()
+            role = guild.getRolesByName(roleName, true).first()
             roleID = role.idLong
         }
 
@@ -49,7 +48,7 @@ class JoinEvent : ListenerAdapter() {
         val communicationChannel = guild.getTextChannelsByName(channel2Name, true).firstOrNull()
         val logsChannel = guild.getTextChannelsByName(channel3Name, true).firstOrNull()
 
-        guild.systemChannel?.sendMessage("> Hello ${guild.name}. \n > Add the \"$roleName\" role to your roles to get started.")
+        guild.systemChannel?.sendMessage("> **Hello ${guild.name}**. \n > Add the ${role.asMention} role to your roles to get started.")
             ?.queue()
         if (whitelistChannel == null || communicationChannel == null || logsChannel == null) {
             GlobalScope.launch {

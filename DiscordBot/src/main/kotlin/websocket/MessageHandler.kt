@@ -15,7 +15,7 @@ class MessageHandler {
         when (Users().getAuthFromGuild(message[3].toLong())) {
             0 -> {
                 communicationChannel
-                    ?.sendMessage("> The player ${message[2]} tried to link this Discord server to a Minecraft server.\n> /auth [true/false]")
+                    ?.sendMessage("> The player ${message[2]} tried to link this Discord server to a Minecraft server.\n> `/auth [true/false]`")
                     ?.queue()
                 Users().setAuthFromGuild(message[3].toLong(), 1)
             }

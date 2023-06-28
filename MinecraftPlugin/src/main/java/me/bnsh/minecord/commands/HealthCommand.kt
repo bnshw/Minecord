@@ -12,7 +12,7 @@ class HealthCommand : CommandExecutor {
     override fun onCommand(p0: CommandSender, p1: Command, p2: String, p3: Array<out String>?): Boolean {
         val player = p0 as Player
         if (!player.isOp) {
-            Utils().playerMessage(player, "This command can only be executed by an operator", ChatColor.RED)
+        Utils().playerMessage(player, "This command can only be executed by an operator", ChatColor.RED)
             return true
         }
 
@@ -24,7 +24,7 @@ class HealthCommand : CommandExecutor {
     }
 
     private fun setHealth(hearts: String, player: Player?) {
-        if (hearts.toDoubleOrNull() == null  && hearts.toDouble() <= 20 && hearts.toDouble() >= 0) {
+        if (hearts.toDoubleOrNull() == null && hearts.toDouble() <= 20 && hearts.toDouble() >= 0) {
             Utils().playerMessage(player!!, "/health <hearts> \\n Max. 20 hearts", ChatColor.RED)
             return
         }

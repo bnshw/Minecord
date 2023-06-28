@@ -1,5 +1,6 @@
 package commands.classes
 
+import Utils
 import database.models.Users
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import websocket.Client
@@ -7,6 +8,7 @@ import websocket.Options
 
 class AuthCommand {
     fun onAuth(event: SlashCommandInteractionEvent) {
+        if (Utils().checkMemberRole(event)) return
         val option = event.getOption("option")?.asBoolean
 
         when (event.guild?.let { Users().getAuthFromGuild(it.idLong) }) {

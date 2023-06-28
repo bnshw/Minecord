@@ -1,3 +1,4 @@
+import net.dv8tion.jda.api.entities.Role
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 
@@ -21,6 +22,16 @@ class Utils {
                     )?.first()?.asMention
                 } Channel"
             )
+            reply.setEphemeral(true).queue()
+            return true
+        }
+        return false
+    }
+
+    fun checkMemberRole(event: SlashCommandInteractionEvent): Boolean {
+        val role: Role? = event.guild?.getRolesByName("Minecord-Mod", true)?.first()
+        if (event.member?.roles?.any { it == role } == false) {
+            val reply = event.reply("> This Command can only be executed by a member with the role ${role?.asMention}")
             reply.setEphemeral(true).queue()
             return true
         }

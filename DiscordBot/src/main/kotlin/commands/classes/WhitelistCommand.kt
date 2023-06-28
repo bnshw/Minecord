@@ -18,6 +18,7 @@ class WhitelistCommand {
     private var guildID: Long = 0
 
     fun onWhitelistCommand(event: SlashCommandInteractionEvent) {
+        if (Utils().checkMemberRole(event)) return
         if (Utils().checkCommandChannel(event, "whitelist")) return
 
         guildID = event.guild?.idLong!!
@@ -41,7 +42,7 @@ class WhitelistCommand {
             }
             return
         }
-        event.reply("> Whitelist is currently disabled. \n > Use `/whitelist enable` to enable the whitelist\"").queue()
+        event.reply("> Whitelist is currently disabled. \n > Use `/whitelist enable` to enable the whitelist").queue()
     }
 
     private fun enableWhitelist(event: SlashCommandInteractionEvent) {

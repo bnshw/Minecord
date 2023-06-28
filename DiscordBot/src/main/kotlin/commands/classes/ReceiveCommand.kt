@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 class ReceiveCommand {
     fun onReceive(event: SlashCommandInteractionEvent) {
+        if (Utils().checkMemberRole(event)) return
         if (Utils().checkCommandChannel(event, "communication")) return
 
         when (event.subcommandName) {
