@@ -6,14 +6,14 @@ import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
 class Utils {
-    val prefix = "[MINECORD]"
+    private val prefix = "[MINECORD]"
 
     fun broadcast(message: String) {
         Bukkit.broadcast(TextComponent("$prefix $message"))
     }
 
     fun broadcast(message: String, color: ChatColor) {
-        Bukkit.broadcast(TextComponent("$color $prefix $message"))
+        Bukkit.broadcast(TextComponent("$prefix $color $message"))
     }
 
     fun playerMessage(player: Player, message: String) {
@@ -21,10 +21,11 @@ class Utils {
     }
 
     fun playerMessage(player: Player, message: String, color: ChatColor) {
-        player.sendMessage("$color $prefix $message")
+        player.sendMessage("$prefix $color $message")
     }
 
     fun playerMessage(player: Player, message: TextComponent) {
-        player.sendMessage("$prefix $message")
+        message.text = "$prefix ${message.text}"
+        player.sendMessage(message)
     }
 }

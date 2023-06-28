@@ -18,7 +18,7 @@ class JoinListener : Listener {
         event.joinMessage = "${ChatColor.AQUA} Hello ${player.name}"
 
         if (!Main.checkGuilIdFileExists()) {
-            Utils().broadcast("Guild-ID has not been set.", ChatColor.RED)
+            Utils().playerMessage(player,"Guild-ID has not been set.", ChatColor.RED)
 
             val clickableMessage = TextComponent("${ChatColor.RED}/id <guild-id>")
             clickableMessage.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/id ")

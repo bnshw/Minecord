@@ -15,14 +15,6 @@ class Users {
         DatabaseController().sqlStatement("DELETE FROM users WHERE guild_ID = $guildID")
     }
 
-    fun setAddressFromGuild(guildID: Long, address: String?) {
-        DatabaseController().sqlStatement("UPDATE users SET address = '$address' WHERE guild_ID = $guildID")
-    }
-
-    fun setChannelFromGuild(guildID: Long, channelID: Long) {
-        DatabaseController().sqlStatement("UPDATE users SET channel_ID = '$channelID' WHERE guild_ID = $guildID")
-    }
-
     fun setAuthFromGuild(guildID: Long, auth: Int) {
         DatabaseController().sqlStatement("UPDATE users SET auth = $auth WHERE guild_ID = $guildID")
     }
@@ -55,19 +47,6 @@ class Users {
 
         query.close()
         return guildList
-    }
-
-    fun getChannelFromGuild(guildID: Long): Long {
-        val query = DatabaseController().query("SELECT channel_ID FROM users WHERE guild_ID = $guildID")
-
-        var channelID: Long = 0
-
-        if (query.next()) {
-            channelID = query.getLong("channel_ID")
-        }
-
-        query.close()
-        return channelID
     }
 
     fun getAuthFromGuild(guildID: Long): Int {

@@ -1,19 +1,23 @@
 package events
 
+import botInstance
 import database.models.Users
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Role
 import net.dv8tion.jda.api.entities.channel.concrete.Category
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import java.awt.Color
+import java.util.*
 
 class JoinEvent : ListenerAdapter() {
     private var communicationID: Long = 0
+    private var roleID: Long = 0
 
     private val roleName: String = "Minecord-Mod"
     private val categoryName: String = "Minecord-Channels"
@@ -27,8 +31,13 @@ class JoinEvent : ListenerAdapter() {
 
     @OptIn(DelicateCoroutinesApi::class)
     fun botSetup(guild: Guild) {
+        val role: Role
         if (guild.getRolesByName(roleName, true).size == 0) {
-            createRole(guild, roleName)
+            role = createRole(guild, roleName)
+            roleID = role.idLong
+        } else {
+            role = botInstance.getRolesByName(roleName, false).first()
+            roleID = role.idLong
         }
 
         val category =
@@ -40,6 +49,8 @@ class JoinEvent : ListenerAdapter() {
         val communicationChannel = guild.getTextChannelsByName(channel2Name, true).firstOrNull()
         val logsChannel = guild.getTextChannelsByName(channel3Name, true).firstOrNull()
 
+        guild.systemChannel?.sendMessage("> Hello ${guild.name}. \nAdd the \"$roleName\" role to your roles to get started.")
+            ?.queue()
         if (whitelistChannel == null || communicationChannel == null || logsChannel == null) {
             GlobalScope.launch {
                 if (whitelistChannel == null) {
@@ -47,7 +58,6 @@ class JoinEvent : ListenerAdapter() {
                 }
                 if (communicationChannel == null) {
                     createBotChannel(guild, category, channel2Name)
-                    guild.systemChannel?.sendMessage("Hello ${guild.name}. Please set your server ip address with:\n> /ip [ip-address]")
                     Users().setUser(guild.idLong, communicationID)
                 }
                 if (logsChannel == null) {
@@ -57,25 +67,36 @@ class JoinEvent : ListenerAdapter() {
             return
         }
         Users().setUser(guild.idLong)
-        guild.systemChannel?.sendMessage("Hello ${guild.name}. Please set your server ip address and your $channel2Name channel id with:\n> `/ip [ip-address]`\n> `/id [channel-id]`\nAdd the \"$roleName\" role to your roles to get started.")
-            ?.queue()
     }
 
     private suspend fun createBotChannel(guild: Guild, category: Category, name: String) {
-        if (name != channel2Name) {
+        if (name == channel2Name) {
+            val communicationIDDeferred = CompletableDeferred<Long>()
             guild.createTextChannel(name)
                 .setParent(category)
+                .queue { channel ->
+                    communicationIDDeferred.complete(channel.idLong)
+                }
+
+            communicationID = communicationIDDeferred.await()
+        }
+        if (name == channel3Name) {
+            guild.createTextChannel(name)
+                .setParent(category)
+                .addRolePermissionOverride(
+                    roleID,
+                    EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_HISTORY),
+                    null
+                )
+                .addRolePermissionOverride(guild.publicRole.idLong, null, EnumSet.of(Permission.VIEW_CHANNEL))
                 .queue()
             return
         }
-        val communicationIDDeferred = CompletableDeferred<Long>()
+
         guild.createTextChannel(name)
             .setParent(category)
-            .queue { channel ->
-                communicationIDDeferred.complete(channel.idLong)
-            }
-
-        communicationID = communicationIDDeferred.await()
+            .queue()
+        return
     }
 
     private fun createRole(guild: Guild, name: String): Role {

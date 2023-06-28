@@ -31,8 +31,9 @@ class Client {
                     val splitMessage = othersMessage.readText().split("\\s".toRegex())
                     if (splitMessage[0] == "[MINECRAFT]") {
                         when (splitMessage[1]) {
-                            "MESSAGE" -> MessageHandler().messageToDiscord(splitMessage)
+                            "MESSAGE" -> MessageHandler().messageToCommunication(splitMessage)
                             "AUTH" -> MessageHandler().authMessage(splitMessage)
+                            "LOG" -> MessageHandler().messageToLog(splitMessage)
                         }
                     }
                 }
@@ -53,5 +54,6 @@ class Client {
 enum class Options {
     MESSAGE,
     AUTH,
-    WHITELIST
+    WHITELIST,
+    LOG
 }

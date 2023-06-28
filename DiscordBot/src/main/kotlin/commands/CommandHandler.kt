@@ -1,6 +1,8 @@
 package commands
 
-import commands.classes.*
+import commands.classes.AuthCommand
+import commands.classes.ReceiveCommand
+import commands.classes.WhitelistCommand
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
@@ -9,8 +11,8 @@ class CommandHandler : ListenerAdapter() {
         when (event.name) {
             "whitelist-add" -> WhitelistCommand().onWhitelistCommand(event)
             "whitelist-remove" -> WhitelistCommand().onWhitelistCommand(event)
-            "ip" -> IpCommand().onIpCommand(event)
-            "id" -> IdCommand().onIdCommand(event)
+            //"ip" -> IpCommand().onIpCommand(event)
+            //"id" -> IdCommand().onIdCommand(event)
             "auth" -> AuthCommand().onAuth(event)
             "receive" -> ReceiveCommand().onReceive(event)
         }
