@@ -1,5 +1,6 @@
 import commands.CommandHandler
 import database.models.Users
+import database.models.Whitelist
 import events.GuildLeaveEvent
 import events.JoinEvent
 import events.MessageReceivedEvent
@@ -54,6 +55,17 @@ fun main() {
     bot.guilds.forEach { guild ->
         println(guild.idLong)
         if (Users().getAllGuilds().contains(guild.idLong)) JoinEvent().botSetup(guild)
+    }
+
+    for (id in Users().getAllGuilds()) {
+        var temp = 0
+        bot.guilds.forEach { guild ->
+            if (guild.idLong != id) temp++
+        }
+        if (temp == bot.guilds.size) {
+            Whitelist().removePlayers(id)
+            Users().removeUser(id)
+        }
     }
 
     Client().receiveMessage()
