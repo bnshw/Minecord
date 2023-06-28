@@ -49,7 +49,7 @@ class JoinEvent : ListenerAdapter() {
         val communicationChannel = guild.getTextChannelsByName(channel2Name, true).firstOrNull()
         val logsChannel = guild.getTextChannelsByName(channel3Name, true).firstOrNull()
 
-        guild.systemChannel?.sendMessage("> Hello ${guild.name}. \nAdd the \"$roleName\" role to your roles to get started.")
+        guild.systemChannel?.sendMessage("> Hello ${guild.name}. \n > Add the \"$roleName\" role to your roles to get started.")
             ?.queue()
         if (whitelistChannel == null || communicationChannel == null || logsChannel == null) {
             GlobalScope.launch {

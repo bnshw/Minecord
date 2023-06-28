@@ -12,6 +12,11 @@ import org.bukkit.entity.Player
 class ReceiveCommand : CommandExecutor {
     override fun onCommand(p0: CommandSender, p1: Command, p2: String, p3: Array<out String>?): Boolean {
         val player: Player = p0 as Player
+        if (!player.isOp) {
+            Utils().playerMessage(player, "This command can only be executed by an operator", ChatColor.RED)
+            return true
+        }
+
         if (p3?.size != 1) {
             Utils().playerMessage(player, "Format: /receive <discord-messages or minecraft-messages>", ChatColor.RED)
             return true

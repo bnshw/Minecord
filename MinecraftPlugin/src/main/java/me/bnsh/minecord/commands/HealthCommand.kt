@@ -11,6 +11,10 @@ import org.bukkit.entity.Player
 class HealthCommand : CommandExecutor {
     override fun onCommand(p0: CommandSender, p1: Command, p2: String, p3: Array<out String>?): Boolean {
         val player = p0 as Player
+        if (!player.isOp) {
+            Utils().playerMessage(player, "This command can only be executed by an operator", ChatColor.RED)
+            return true
+        }
 
         when (p3?.size) {
             1 -> setHealth(p3[0], player)

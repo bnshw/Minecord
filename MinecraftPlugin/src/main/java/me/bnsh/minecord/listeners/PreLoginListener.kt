@@ -1,6 +1,7 @@
 package me.bnsh.minecord.listeners
 
 import me.bnsh.minecord.Main
+import me.bnsh.minecord.database.models.Users
 import me.bnsh.minecord.database.models.Whitelist
 import me.bnsh.minecord.websocket.Client
 import me.bnsh.minecord.websocket.Options
@@ -13,12 +14,19 @@ class PreLoginListener : Listener {
     @EventHandler
     fun onPreLogin(event: AsyncPlayerPreLoginEvent) {
         Client().sendMessage(Options.LOG, event.name, "Player ${event.name} tried to log in")
-        if (Main.checkGuilIdFileExists()) {
-            if (Whitelist().checkUUID(event.uniqueId)) {
-                event.allow()
+        if (Users().getWhitelist()) {
+            if (Main.checkGuilIdFileExists()) {
+                if (Whitelist().checkUUID(event.uniqueId)) {
+                    event.allow()
+                    return
+                }
+                event.disallow(
+                    AsyncPlayerPreLoginEvent.Result.KICK_WHITELIST,
+                    "${ChatColor.RED} You are not whitelisted."
+                )
                 return
             }
-            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_WHITELIST, "${ChatColor.RED} You are not whitelisted.")
+            event.allow()
             return
         }
         event.allow()

@@ -1,13 +1,13 @@
 package commands.classes
 
-import commands.CommandHandler
+import Utils
 import database.models.Option
 import database.models.Users
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 
 class ReceiveCommand {
     fun onReceive(event: SlashCommandInteractionEvent) {
-        if (CommandHandler().checkCommandChannel(event, "communication")) return
+        if (Utils().checkCommandChannel(event, "communication")) return
 
         when (event.subcommandName) {
             "discord-messages" -> setDiscordMessages(event)

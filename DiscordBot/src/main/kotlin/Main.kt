@@ -32,6 +32,9 @@ fun main() {
         .build()
 
     bot.updateCommands().addCommands(
+        Commands.slash("whitelist", "Disable or enable the whitelist")
+            .addSubcommands(SubcommandData("enable", "Enables the whitelist"))
+            .addSubcommands(SubcommandData("disable", "Disables the whitelist")),
         Commands.slash("whitelist-add", "Whitelist given player")
             .addOption(OptionType.STRING, "player", "Player name", true),
         Commands.slash("receive", "Whitelist given player")

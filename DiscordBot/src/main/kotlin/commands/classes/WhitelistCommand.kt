@@ -1,6 +1,7 @@
 package commands.classes
 
-import commands.CommandHandler
+import Utils
+import database.models.Users
 import database.models.Whitelist
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -14,15 +15,53 @@ import java.util.*
 class WhitelistCommand {
 
     private var name: String? = ""
+    private var guildID: Long = 0
 
     fun onWhitelistCommand(event: SlashCommandInteractionEvent) {
-        if (CommandHandler().checkCommandChannel(event, "whitelist")) return
+        if (Utils().checkCommandChannel(event, "whitelist")) return
 
-        when (event.name) {
-            "whitelist-add" -> addToWhitelist(event)
-            "whitelist-remove" -> removeFromWhitelist(event)
+        guildID = event.guild?.idLong!!
+        if (event.name == "whitelist") {
+            when (event.subcommandName) {
+                "enable" -> {
+                    enableWhitelist(event)
+                    return
+                }
+
+                "disable" -> {
+                    disableWhitelist(event)
+                    return
+                }
+            }
         }
+        if (Users().getWhitelist(guildID)) {
+            when (event.name) {
+                "whitelist-add" -> addToWhitelist(event)
+                "whitelist-remove" -> removeFromWhitelist(event)
+            }
+            return
+        }
+        event.reply("> Whitelist is currently disabled. \n > Use `/whitelist enable` to enable the whitelist\"").queue()
     }
+
+    private fun enableWhitelist(event: SlashCommandInteractionEvent) {
+        if (Users().getWhitelist(guildID)) {
+            event.reply("> Whitelist is already enabled").queue()
+            return
+        }
+        event.reply("> Whitelist is now enabled").queue()
+        Users().setWhitelist(guildID, true)
+    }
+
+    private fun disableWhitelist(event: SlashCommandInteractionEvent) {
+        if (!Users().getWhitelist(guildID)) {
+            event.reply("> Whitelist is already disabled").queue()
+            return
+        }
+        event.reply("> Whitelist is now disabled").queue()
+        Users().setWhitelist(guildID, false)
+    }
+
 
     private fun addToWhitelist(event: SlashCommandInteractionEvent) {
         name = event.getOption("player")?.asString
@@ -35,7 +74,7 @@ class WhitelistCommand {
         val formattedUUID: String? = formatUUID(response)
         val uuid: UUID = UUID.fromString(formattedUUID)
 
-        if (event.guild?.let { Whitelist().checkUUID(uuid, it.idLong) } == true) {
+        if (Whitelist().checkUUID(uuid, guildID)) {
             event.reply("> Player $name is already whitelisted").queue()
             return
         }
@@ -46,8 +85,8 @@ class WhitelistCommand {
 
     private fun removeFromWhitelist(event: SlashCommandInteractionEvent) {
         name = event.getOption("player")?.asString
-        if (event.guild?.let { Whitelist().checkPlayerExists(name!!, it.idLong) } == true) {
-            event.guild?.let { Whitelist().removePlayer(name!!, it.idLong) }
+        if (Whitelist().checkPlayerExists(name!!, guildID)) {
+            Whitelist().removePlayer(name!!, guildID)
             event.reply("> Player $name has been removed from the whitelist").queue()
             event.member?.let { Client().sendMessage(Options.WHITELIST, it.effectiveName, "REMOVED $name") }
             return

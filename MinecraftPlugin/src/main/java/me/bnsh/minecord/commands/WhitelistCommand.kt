@@ -4,9 +4,9 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import me.bnsh.minecord.Utils
+import me.bnsh.minecord.database.models.Users
 import me.bnsh.minecord.database.models.Whitelist
 import net.kyori.adventure.text.Component
-import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
@@ -20,15 +20,53 @@ import java.util.*
 class WhitelistCommand : CommandExecutor {
     override fun onCommand(p0: CommandSender, p1: Command, p2: String, p3: Array<out String>?): Boolean {
         val player = p0 as Player
-        if (p3?.size != 2) {
-            Utils().playerMessage(player, "Format: /whitelist <add or remove> <player-name>", ChatColor.RED)
+        if (!player.isOp) {
+            Utils().playerMessage(player, "This command can only be executed by an operator", ChatColor.RED)
             return true
         }
-        when (p3[0]) {
-            "add" -> addToWhitelist(p3[1], player)
-            "remove" -> removeFromWhitelist(p3[1], player)
+
+        if (p3?.size!! !in 1..2) {
+            Utils().playerMessage(player, "Format:\n/whitelist <add or remove> <player-name>\n/whitelist <enable or disable>", ChatColor.RED)
+            return true
         }
+
+        when (p3[0]) {
+            "enable" -> {
+                enableWhitelist(player)
+                return true
+            }
+            "disable" -> {
+                disableWhitelist(player)
+                return true
+            }
+        }
+        if (Users().getWhitelist()) {
+            when (p3[0]) {
+                "add" -> addToWhitelist(p3[1], player)
+                "remove" -> removeFromWhitelist(p3[1], player)
+            }
+            return true
+        }
+        Utils().playerMessage(player, "Whitelist is currently disabled\nUse ${ChatColor.UNDERLINE}/whitelist enable${ChatColor.RESET}${ChatColor.RED} to enable the whitelist", ChatColor.RED)
         return true
+    }
+
+    private fun enableWhitelist(player: Player) {
+        if (Users().getWhitelist()) {
+            Utils().playerMessage(player, "Whitelist is already enabled", ChatColor.RED)
+            return
+        }
+        Utils().playerMessage(player,"Whitelist is now enabled", ChatColor.GREEN)
+        Users().setWhitelist(true)
+    }
+
+    private fun disableWhitelist(player: Player) {
+        if (!Users().getWhitelist()) {
+            Utils().playerMessage(player,"Whitelist is already disabled", ChatColor.RED)
+            return
+        }
+        Utils().playerMessage(player, "Whitelist is now disabled", ChatColor.GREEN)
+        Users().setWhitelist(false)
     }
 
     private fun addToWhitelist(playerName: String, sender: Player) {

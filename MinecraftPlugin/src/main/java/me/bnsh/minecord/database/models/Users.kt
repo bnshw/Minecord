@@ -17,6 +17,23 @@ class Users {
         return id != 0L
     }
 
+    fun setWhitelist(bool: Boolean) {
+        DatabaseController().sqlStatement("UPDATE users SET whitelist = $bool WHERE guild_ID = ${Main.getGuildID()}")
+    }
+
+    fun getWhitelist(): Boolean {
+        val query = DatabaseController().query("SELECT whitelist FROM users WHERE guild_ID = ${Main.getGuildID()}")
+
+        var messageValue = false
+
+        if (query.next()) {
+            messageValue = query.getBoolean("whitelist")
+        }
+
+        query.close()
+        return messageValue
+    }
+
     fun setMessages(message: Option, bool: Boolean) {
         DatabaseController().sqlStatement("UPDATE users SET $message = $bool WHERE guild_ID = ${Main.getGuildID()}")
     }

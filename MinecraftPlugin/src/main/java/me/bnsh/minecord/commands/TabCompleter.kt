@@ -16,6 +16,8 @@ class TabCompleter : TabCompleter {
         if (p1.name == "whitelist" && p3?.size == 1) {
             list.add("add")
             list.add("remove")
+            list.add("enable")
+            list.add("disable")
         }
 
         if (p1.name == "whitelist" && p3?.size == 2 && p3[0] == "remove") {
