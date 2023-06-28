@@ -5,10 +5,6 @@ import database.models.Users
 
 class MessageHandler {
     fun messageToCommunication(message: List<String>) {
-        /*
-        botInstance.getTextChannelById(Users().getChannelFromGuild(message[3].toLong()))
-            ?.sendMessage("${message[0]} <${message[2]}> ${message.subList(4, message.size).joinToString(" ")}")?.queue(
-        */
         Utils().getBotChannelByName("Communication", message[3].toLong())
             ?.sendMessage("${message[0]} <${message[2]}> ${message.subList(4, message.size).joinToString(" ")}")
             ?.queue()
@@ -21,36 +17,23 @@ class MessageHandler {
                 communicationChannel
                     ?.sendMessage("> The player ${message[2]} tried to link this Discord server to a Minecraft server.\n> /auth [true/false]")
                     ?.queue()
-                /*
-                botInstance.getTextChannelById(Users().getChannelFromGuild(message[3].toLong()))
-                    ?.sendMessage("> The player ${message[2]} tried to link this Discord server to a Minecraft server.\n> /auth [true/false]")?.queue()
-                 */
                 Users().setAuthFromGuild(message[3].toLong(), 1)
             }
 
             1 -> {
                 communicationChannel
                     ?.sendMessage("> There is already an ongoing authentication")?.queue()
-                /*
-                botInstance.getTextChannelById(Users().getChannelFromGuild(message[3].toLong()))
-                    ?.sendMessage("> There is already an ongoing authentication")?.queue()
-                 */
             }
 
             2 -> {
                 communicationChannel
                     ?.sendMessage("> This Discord is already linked to an Minecraft server")?.queue()
-                /*
-                botInstance.getTextChannelById(Users().getChannelFromGuild(message[3].toLong()))
-                    ?.sendMessage("> This Discord is already linked to an Minecraft server")?.queue()
-
-                 */
             }
         }
     }
 
     fun messageToLog(message: List<String>) {
         Utils().getBotChannelByName("Minecord-Logs", message[3].toLong())
-            ?.sendMessage("[${message[2]}] ${message.subList(4, message.size).joinToString(" ")}")?.queue()
+            ?.sendMessage("[${message[1]}] ${message.subList(4, message.size).joinToString(" ")}")?.queue()
     }
 }

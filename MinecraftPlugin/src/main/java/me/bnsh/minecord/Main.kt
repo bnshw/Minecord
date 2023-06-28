@@ -4,6 +4,7 @@ import me.bnsh.minecord.commands.*
 import me.bnsh.minecord.listeners.ChatListener
 import me.bnsh.minecord.listeners.JoinListener
 import me.bnsh.minecord.listeners.PreLoginListener
+import me.bnsh.minecord.listeners.QuitEvent
 import me.bnsh.minecord.websocket.Client
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -39,6 +40,7 @@ class Main : JavaPlugin() {
         manager.registerEvents(JoinListener(), this)
         manager.registerEvents(ChatListener(), this)
         manager.registerEvents(PreLoginListener(), this)
+        manager.registerEvents(QuitEvent(), this)
     }
 
     private fun commandRegistration() {

@@ -38,8 +38,8 @@ class Client {
         GlobalScope.launch(Dispatchers.IO) {
             client.webSocket(method = HttpMethod.Get, host = "localhost", port = 8080, path = "/chat") {
                 when (option) {
-                    Options.MESSAGE ->  send("[MINECRAFT] $option $author ${Main.getGuildID()} $content")
                     Options.AUTH -> send("[MINECRAFT] $option $author $content")
+                    else -> send("[MINECRAFT] $option $author ${Main.getGuildID()} $content")
                 }
             }
         }
@@ -48,5 +48,6 @@ class Client {
 
 enum class Options {
     MESSAGE,
-    AUTH
+    AUTH,
+    LOG
 }

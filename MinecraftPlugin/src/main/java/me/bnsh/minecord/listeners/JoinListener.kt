@@ -2,6 +2,8 @@ package me.bnsh.minecord.listeners
 
 import me.bnsh.minecord.Main
 import me.bnsh.minecord.Utils
+import me.bnsh.minecord.websocket.Client
+import me.bnsh.minecord.websocket.Options
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
@@ -16,6 +18,7 @@ class JoinListener : Listener {
         val player = event.player
 
         event.joinMessage = "${ChatColor.AQUA} Hello ${player.name}"
+        Client().sendMessage(Options.LOG, player.name, "Player ${player.name} joined server")
 
         if (!Main.checkGuilIdFileExists()) {
             Utils().playerMessage(player,"Guild-ID has not been set.", ChatColor.RED)
