@@ -20,6 +20,8 @@ import java.util.*
 class WhitelistCommand : CommandExecutor {
     override fun onCommand(p0: CommandSender, p1: Command, p2: String, p3: Array<out String>?): Boolean {
         val player = p0 as Player
+        if (!Utils().checkGuildIdFileExists(player)) return true
+
         if (!player.isOp) {
             Utils().playerMessage(player, "This command can only be executed by an operator", ChatColor.RED)
             return true

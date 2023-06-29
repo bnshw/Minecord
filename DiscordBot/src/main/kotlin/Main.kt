@@ -13,13 +13,9 @@ import net.dv8tion.jda.api.requests.GatewayIntent
 import websocket.Client
 
 lateinit var botInstance: JDA
-var dotenv = dotenv {
-    directory = "../../Minecord"
-    filename = ".env"
-}
 
 fun main() {
-    val bot: JDA = JDABuilder.createDefault(dotenv.get("BOT_TOKEN"))
+    val bot: JDA = JDABuilder.createDefault(dotenv().get("BOT_TOKEN"))
         .enableIntents(GatewayIntent.MESSAGE_CONTENT)
         .addEventListeners(
             CommandHandler(),

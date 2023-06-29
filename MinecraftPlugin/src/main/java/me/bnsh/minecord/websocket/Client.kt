@@ -5,7 +5,6 @@ import io.ktor.client.plugins.websocket.*
 import io.ktor.http.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.*
-import me.bnsh.minecord.Main
 import me.bnsh.minecord.Utils
 
 class Client {
