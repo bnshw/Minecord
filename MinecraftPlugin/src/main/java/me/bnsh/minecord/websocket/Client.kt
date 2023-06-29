@@ -27,7 +27,7 @@ class Client {
                             "MESSAGE" -> MessageHandler().messageToServer(splitMessage)
                             "AUTH" -> MessageHandler().authMessage(splitMessage)
                             "WHITELIST" -> MessageHandler().whitelistAction(splitMessage)
-                            "LEAVE" -> MessageHandler().leaveAction()
+                            "LEAVE" -> MessageHandler().deleteGuildIdFile(splitMessage)
                         }
                     }
                 }
@@ -51,5 +51,5 @@ class Client {
 enum class Options {
     MESSAGE,
     AUTH,
-    LOG
+    LOG,
 }
