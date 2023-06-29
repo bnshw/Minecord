@@ -1,7 +1,5 @@
 package me.bnsh.minecord.commands
 
-import jdk.jshell.execution.Util
-import me.bnsh.minecord.Main
 import me.bnsh.minecord.Utils
 import me.bnsh.minecord.database.models.Users
 import me.bnsh.minecord.websocket.Client
@@ -18,6 +16,7 @@ class IdCommand : CommandExecutor {
 
     override fun onCommand(p0: CommandSender, p1: Command, p2: String, p3: Array<out String>?): Boolean {
         val player = p0 as Player
+
         if (!player.isOp) {
             Utils().playerMessage(player, "This command can only be executed by an operator", ChatColor.RED)
             return true

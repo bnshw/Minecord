@@ -41,7 +41,6 @@ class Main : JavaPlugin() {
     }
 
     private fun commandRegistration() {
-        getCommand("health")?.setExecutor(HealthCommand())
         getCommand("id")?.setExecutor(IdCommand())
 
         getCommand("receive")?.setExecutor(ReceiveCommand())

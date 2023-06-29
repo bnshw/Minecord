@@ -1,5 +1,6 @@
 package me.bnsh.minecord.commands
 
+import me.bnsh.minecord.Utils
 import me.bnsh.minecord.database.models.Whitelist
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender

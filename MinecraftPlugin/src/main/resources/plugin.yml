@@ -4,8 +4,6 @@ main: me.bnsh.minecord.Main
 api-version: '1.20'
 
 commands:
-  health:
-    description: Sets health of player
   id:
     description: Sets the Guild-ID
   receive:

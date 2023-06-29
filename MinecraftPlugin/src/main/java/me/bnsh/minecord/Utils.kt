@@ -1,5 +1,6 @@
 package me.bnsh.minecord
 
+import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -32,5 +33,15 @@ class Utils {
 
     fun getGuildID(): String = File("Minecord-GuildID.txt").readText()
 
-    fun checkGuilIdFileExists(): Boolean = File("Minecord-GuildID.txt").exists()
+    fun checkGuildIdFileExists(): Boolean = File("Minecord-GuildID.txt").exists()
+
+    fun checkGuildIdFileExists(player: Player): Boolean {
+        val fileExists = File("Minecord-GuildID.txt").exists()
+        if (!fileExists) {
+            val clickableMessage = TextComponent("${ChatColor.RED}Guild-ID has not been set. (Only operators can set the ID)\n/id <guild-id>")
+            clickableMessage.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/id ")
+            playerMessage(player, clickableMessage)
+        }
+        return fileExists
+    }
 }
