@@ -3,10 +3,6 @@ package database.models
 import database.DatabaseController
 
 class Users {
-    fun setUser(guildID: Long, channelID: Long) {
-        DatabaseController().sqlStatement("INSERT INTO users (guild_ID, channel_ID) VALUES ($guildID, $channelID)")
-    }
-
     fun setUser(guildID: Long) {
         DatabaseController().sqlStatement("INSERT INTO users (guild_ID) VALUES ($guildID)")
     }
