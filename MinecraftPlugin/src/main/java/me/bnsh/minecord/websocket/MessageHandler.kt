@@ -51,4 +51,6 @@ class MessageHandler {
         Whitelist().removePlayer(playerName)
         return
     }
+
+    fun leaveAction() =  File("Minecord-GuildID.txt").delete()
 }

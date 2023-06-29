@@ -55,5 +55,5 @@ enum class Options {
     MESSAGE,
     AUTH,
     WHITELIST,
-    LOG
+    LEAVE
 }

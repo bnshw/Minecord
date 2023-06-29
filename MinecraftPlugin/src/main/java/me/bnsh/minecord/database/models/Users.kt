@@ -1,6 +1,7 @@
 package me.bnsh.minecord.database.models
 
 import me.bnsh.minecord.Main
+import me.bnsh.minecord.Utils
 import me.bnsh.minecord.database.DatabaseController
 
 class Users {
@@ -18,11 +19,11 @@ class Users {
     }
 
     fun setWhitelist(bool: Boolean) {
-        DatabaseController().sqlStatement("UPDATE users SET whitelist = $bool WHERE guild_ID = ${Main.getGuildID()}")
+        DatabaseController().sqlStatement("UPDATE users SET whitelist = $bool WHERE guild_ID = ${Utils().getGuildID()}")
     }
 
     fun getWhitelist(): Boolean {
-        val query = DatabaseController().query("SELECT whitelist FROM users WHERE guild_ID = ${Main.getGuildID()}")
+        val query = DatabaseController().query("SELECT whitelist FROM users WHERE guild_ID = ${Utils().getGuildID()}")
 
         var messageValue = false
 
@@ -35,11 +36,11 @@ class Users {
     }
 
     fun setMessages(message: Option, bool: Boolean) {
-        DatabaseController().sqlStatement("UPDATE users SET $message = $bool WHERE guild_ID = ${Main.getGuildID()}")
+        DatabaseController().sqlStatement("UPDATE users SET $message = $bool WHERE guild_ID = ${Utils().getGuildID()}")
     }
 
     fun getMessages(message: Option): Boolean {
-        val query = DatabaseController().query("SELECT $message FROM users WHERE guild_ID = ${Main.getGuildID()}")
+        val query = DatabaseController().query("SELECT $message FROM users WHERE guild_ID = ${Utils().getGuildID()}")
 
         var messageValue = false
 
