@@ -6,6 +6,7 @@ import io.ktor.http.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.*
 import me.bnsh.minecord.Main
+import me.bnsh.minecord.Utils
 
 class Client {
     private val client = HttpClient {
@@ -26,6 +27,7 @@ class Client {
                             "MESSAGE" -> MessageHandler().messageToServer(splitMessage)
                             "AUTH" -> MessageHandler().authMessage(splitMessage)
                             "WHITELIST" -> MessageHandler().whitelistAction(splitMessage)
+                            "LEAVE" -> MessageHandler().leaveAction()
                         }
                     }
                 }
@@ -39,7 +41,7 @@ class Client {
             client.webSocket(method = HttpMethod.Get, host = "localhost", port = 8080, path = "/chat") {
                 when (option) {
                     Options.AUTH -> send("[MINECRAFT] $option $author $content")
-                    else -> send("[MINECRAFT] $option $author ${Main.getGuildID()} $content")
+                    else -> send("[MINECRAFT] $option $author ${Utils().getGuildID()} $content")
                 }
             }
         }

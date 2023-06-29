@@ -20,7 +20,7 @@ class JoinListener : Listener {
         event.joinMessage = "${ChatColor.AQUA} Hello ${player.name}"
         Client().sendMessage(Options.LOG, player.name, "Player ${player.name} joined server")
 
-        if (!Main.checkGuilIdFileExists()) {
+        if (!Utils().checkGuilIdFileExists()) {
             Utils().playerMessage(player,"Guild-ID has not been set.", ChatColor.RED)
 
             val clickableMessage = TextComponent("${ChatColor.RED}/id <guild-id>")

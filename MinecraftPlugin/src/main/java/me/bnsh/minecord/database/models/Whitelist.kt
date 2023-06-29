@@ -1,21 +1,22 @@
 package me.bnsh.minecord.database.models
 
 import me.bnsh.minecord.Main
+import me.bnsh.minecord.Utils
 import me.bnsh.minecord.database.DatabaseController
 import java.util.*
 import kotlin.collections.ArrayList
 
 class Whitelist {
     fun setPlayer(uuid: String, name: String) {
-        DatabaseController().sqlStatement("INSERT INTO whitelist (uuid, name, guild_ID) VALUES ('$uuid', '$name', ${Main.getGuildID()})")
+        DatabaseController().sqlStatement("INSERT INTO whitelist (uuid, name, guild_ID) VALUES ('$uuid', '$name', ${Utils().getGuildID()})")
     }
 
     fun removePlayer(name: String) {
-        DatabaseController().sqlStatement("DELETE FROM whitelist WHERE guild_ID = ${Main.getGuildID()} AND name = '$name'")
+        DatabaseController().sqlStatement("DELETE FROM whitelist WHERE guild_ID = ${Utils().getGuildID()} AND name = '$name'")
     }
 
     fun checkUUID(uuid: UUID): Boolean {
-        val query = DatabaseController().query("SELECT uuid FROM whitelist WHERE uuid = '$uuid' AND guild_ID = ${Main.getGuildID()}")
+        val query = DatabaseController().query("SELECT uuid FROM whitelist WHERE uuid = '$uuid' AND guild_ID = ${Utils().getGuildID()}")
 
         var uuidString = ""
 
@@ -28,7 +29,7 @@ class Whitelist {
     }
 
     fun getAllNames(): MutableList<String> {
-        val query = DatabaseController().query("SELECT name FROM whitelist WHERE guild_ID = ${Main.getGuildID()}")
+        val query = DatabaseController().query("SELECT name FROM whitelist WHERE guild_ID = ${Utils().getGuildID()}")
 
         val nameList: MutableList<String> = ArrayList()
 
@@ -41,7 +42,7 @@ class Whitelist {
     }
 
     fun checkPlayerExists(name: String): Boolean {
-        val query = DatabaseController().query("SELECT name FROM whitelist WHERE name = '$name' AND guild_ID = ${Main.getGuildID()}")
+        val query = DatabaseController().query("SELECT name FROM whitelist WHERE name = '$name' AND guild_ID = ${Utils().getGuildID()}")
 
         var dbName = ""
 

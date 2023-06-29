@@ -15,9 +15,6 @@ class Main : JavaPlugin() {
     companion object {
         lateinit var plugin: JavaPlugin
         var pluginPath: String = ""
-
-        fun getGuildID(): String = File("Minecord-GuildID.txt").readText()
-        fun checkGuilIdFileExists(): Boolean = File("Minecord-GuildID.txt").exists()
     }
 
     override fun onEnable() {

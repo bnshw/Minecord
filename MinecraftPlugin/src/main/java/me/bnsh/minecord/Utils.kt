@@ -4,6 +4,7 @@ import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
+import java.io.File
 
 class Utils {
     private val prefix = "[MINECORD]"
@@ -28,4 +29,8 @@ class Utils {
         message.text = "$prefix ${message.text}"
         player.sendMessage(message)
     }
+
+    fun getGuildID(): String = File("Minecord-GuildID.txt").readText()
+
+    fun checkGuilIdFileExists(): Boolean = File("Minecord-GuildID.txt").exists()
 }

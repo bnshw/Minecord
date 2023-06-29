@@ -24,7 +24,7 @@ class IdCommand : CommandExecutor {
         }
 
         if (p3?.size == 0) {
-            Utils().playerMessage(player, "Guild-ID of linked Discord server: ${Main.getGuildID()}")
+            Utils().playerMessage(player, "Guild-ID of linked Discord server: ${Utils().getGuildID()}")
             return true
         }
 
