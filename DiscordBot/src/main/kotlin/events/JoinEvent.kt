@@ -57,12 +57,12 @@ class JoinEvent : ListenerAdapter() {
                 }
                 if (communicationChannel == null) {
                     createBotChannel(guild, category, channel2Name)
-                    Users().setUser(guild.idLong, communicationID)
                 }
                 if (logsChannel == null) {
                     createBotChannel(guild, category, channel3Name)
                 }
             }
+            Users().setUser(guild.idLong)
             return
         }
         Users().setUser(guild.idLong)
@@ -78,6 +78,7 @@ class JoinEvent : ListenerAdapter() {
                 }
 
             communicationID = communicationIDDeferred.await()
+            return
         }
         if (name == channel3Name) {
             guild.createTextChannel(name)
