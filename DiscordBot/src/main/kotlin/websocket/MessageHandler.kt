@@ -2,11 +2,16 @@ package websocket
 
 import Utils
 import database.models.Users
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MessageHandler {
+
+    private val timeFormat = SimpleDateFormat("hh:mm:ss")
+
     fun messageToCommunication(message: List<String>) {
         Utils().getBotChannelByName("Communication", message[3].toLong())
-            ?.sendMessage("${message[0]} <${message[2]}> ${message.subList(4, message.size).joinToString(" ")}")
+            ?.sendMessage("**${message[0]}** <${message[2]}> ${message.subList(4, message.size).joinToString(" ")}")
             ?.queue()
     }
 
@@ -34,6 +39,6 @@ class MessageHandler {
 
     fun messageToLog(message: List<String>) {
         Utils().getBotChannelByName("Minecord-Logs", message[3].toLong())
-            ?.sendMessage("[${message[1]}] ${message.subList(4, message.size).joinToString(" ")}")?.queue()
+            ?.sendMessage("**[${timeFormat.format(Date())}]** ${message.subList(4, message.size).joinToString(" ")}")?.queue()
     }
 }

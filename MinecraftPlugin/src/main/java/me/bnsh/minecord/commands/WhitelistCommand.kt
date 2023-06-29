@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package me.bnsh.minecord.commands
 
 import kotlinx.serialization.json.Json

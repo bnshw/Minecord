@@ -7,8 +7,9 @@ import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import java.io.File
 
+@Suppress("DEPRECATION")
 class Utils {
-    private val prefix = "[MINECORD]"
+    private val prefix = "${ChatColor.BOLD}[MINECORD]${ChatColor.RESET}"
 
     fun broadcast(message: String) {
         Bukkit.broadcast(TextComponent("$prefix $message"))
