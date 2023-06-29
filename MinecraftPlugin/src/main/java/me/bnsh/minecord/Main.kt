@@ -8,7 +8,6 @@ import me.bnsh.minecord.listeners.QuitListener
 import me.bnsh.minecord.websocket.Client
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
-import java.io.File
 
 class Main : JavaPlugin() {
 

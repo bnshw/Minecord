@@ -44,7 +44,12 @@ class Client {
     @OptIn(DelicateCoroutinesApi::class)
     fun sendMessage(option: Options, author: String, content: String) {
         GlobalScope.launch(Dispatchers.IO) {
-            client.webSocket(method = HttpMethod.Get, host = "localhost", port = 8080, path = "/chat") {
+            client.webSocket(
+                method = HttpMethod.Get,
+                host = dotenv().get("WS_HOST"),
+                port = dotenv().get("WS_PORT").toInt(),
+                path = dotenv().get("WS_PATH")
+            ) {
                 send("[DISCORD] $option $author $content")
             }
         }
