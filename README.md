@@ -57,4 +57,4 @@ Make sure to update each variable with the appropriate value for your environmen
 
 ## License
 
-Minecord is licensed under the MIT License. For more information, see the [license file](https://github.com/bnshw/Minecord/LICENSE).
+Minecord is licensed under the MIT License. For more information, see the [license file]([https://github.com/bnshw/Minecord/LICENSE](https://github.com/bnshw/Minecord/blob/main/LICENSE)https://github.com/bnshw/Minecord/blob/main/LICENSE).
