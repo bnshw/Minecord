@@ -19,7 +19,7 @@ Minecord is a plugin for [Minecraft](https://www.minecraft.net/) and a [Discord]
 
 ## Installation
 1. Add the Minecord bot to your Discord server by visiting [Bot Authorization](https://discord.com/oauth2/authorize?client_id=1118087884080160778&permissions=8&scope=bot%20applications.commands) and granting the necessary permissions.
-2. Download the Minecord plugin from our [GitHub repository](https://github.com/bnshw/Minecord/releases).
+2. Download the Minecord plugin from [Releases](https://github.com/bnshw/Minecord/releases).
 3. Add the plugin to your Minecraft server.
 4. Obtain the [Guild ID](https://en.wikipedia.org/wiki/Template:Discord_server) of your Discord server.
 5. In Minecraft, use the command /id <guild-id> to specify the Guild ID for communication.
@@ -57,4 +57,4 @@ Make sure to update each variable with the appropriate value for your environmen
 
 ## License
 
-Minecord is licensed under the MIT License. For more information, see the [license file]([https://github.com/bnshw/Minecord/LICENSE](https://github.com/bnshw/Minecord/blob/main/LICENSE)https://github.com/bnshw/Minecord/blob/main/LICENSE).
+Minecord is licensed under the MIT License. For more information, see the [license file](https://github.com/bnshw/Minecord/blob/main/LICENSE).
